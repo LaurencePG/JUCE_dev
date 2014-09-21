@@ -20,26 +20,33 @@
 */
 class JuceDemoPluginAudioProcessorEditor  : public AudioProcessorEditor,
                                             public SliderListener,
-                                            public Timer{
+                                            public Timer
+{
 public:
     JuceDemoPluginAudioProcessorEditor (JuceDemoPluginAudioProcessor&);
     ~JuceDemoPluginAudioProcessorEditor();
 
     //==============================================================================
     void timerCallback() override;
-    void paint(Graphics&) override;
+    void paint (Graphics&) override;
     void resized() override;
-    void sliderValueChanged(Slider*) override;
+    void sliderValueChanged (Slider*) override;
 
 private:
-    Label infoLabel, gainLabel;
-    Slider gainSlider;
+    MidiKeyboardComponent midiKeyboard;
+    Label infoLabel, gainLabel, delayLabel;
+    Slider gainSlider, delaySlider;
     ScopedPointer<ResizableCornerComponent> resizer;
     ComponentBoundsConstrainer resizeLimits;
 
-    JuceDemoPluginAudioProcessor& getProcessor() const{
+    AudioPlayHead::CurrentPositionInfo lastDisplayedPosition;
+
+    JuceDemoPluginAudioProcessor& getProcessor() const
+    {
         return static_cast<JuceDemoPluginAudioProcessor&> (processor);
     }
+
+    void displayPositionInfo (const AudioPlayHead::CurrentPositionInfo& pos);
 };
 
 
